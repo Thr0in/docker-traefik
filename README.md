@@ -1,5 +1,5 @@
-# docker-setup-template
-A template for docker setup file repos
+# Docker Traefik Setup
+Docker setup files for a traefik reverse proxy.
 
 ## Setup
 1. Clone the repository
