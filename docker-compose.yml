@@ -1,0 +1,35 @@
+services:
+  traefik:
+    container_name: traefik
+    restart: always
+    image: "traefik:v3.3"
+    ports:
+      - ${APP_IP}:80:80
+      - ${APP_IP}:443:443
+ #     - ${APP_IP}:8080:8080
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./config/traefik.yaml:/etc/traefik/traefik.yaml"
+      - "./config/dynamic.yaml:/etc/traefik/dynamic.yaml"
+      - "./volumes/traefik/acme.json:/acme.json"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.$APP_NAME.entrypoints=websecure"
+      - "traefik.http.routers.$APP_NAME.rule=Host($APP_URL)"
+      - "traefik.http.routers.$APP_NAME.tls.certresolver=letsencrypt"
+      - "traefik.http.services.$APP_NAME.loadbalancer.server.port=$APP_PORT"
+
+      ## basic AUTH for Dashboard
+      # Note: when used in docker-compose.yml all dollar signs in the hash need to be doubled for escaping.
+      # To create a user:password pair, the following command can be used:
+      # echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g
+      # - "traefik.http.middlewares.basic-auth-traefik.basicauth.users=$DASHBOARD_CREDENTIALS"
+      # - "traefik.http.routers.$APP_NAME.middlewares=basic-auth-traefik"
+    networks:
+      - traefik
+
+
+networks:
+  traefik:
+    external: true
+
