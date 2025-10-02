@@ -15,7 +15,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.$APP_NAME.entrypoints=websecure"
-      - "traefik.http.routers.$APP_NAME.rule=Host($APP_URL)"
+      - "traefik.http.routers.$APP_NAME.rule=Host(`$APP_URL`)"
       - "traefik.http.routers.$APP_NAME.tls.certresolver=letsencrypt"
       - "traefik.http.services.$APP_NAME.loadbalancer.server.port=$APP_PORT"
 
