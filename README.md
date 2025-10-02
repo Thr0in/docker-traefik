@@ -9,6 +9,13 @@ Docker setup files for a traefik reverse proxy.
   nano .env
 ```
 3. Start the docker container
-```
-  docker compose up -d
-```
+  - The first time use
+
+    ```
+    ./setup.sh
+    ```
+  - instead of
+
+    ```
+    docker compose up -d
+    ```
